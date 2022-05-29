@@ -139,6 +139,27 @@ void setup() {
 }
 
 void loop() {
+    btn_instrument_curr = digitalRead(BTN_INSTRUMENT_SWITCH) == LOW;
+
+    if(btn_instrument_curr != btn_instrument_last){
+        delay(100);
+        if(btn_instrument_last == true){
+            curr_instrument++;
+            if(curr_instrument >= num_instruments){
+                curr_instrument = 0;
+            }
+            midiSetInstrument(0, instruments[curr_instrument]);
+            delay(100);
+        }
+        btn_instrument_last = btn_instrument_curr;
+    }
+    else if(btn_instrument_curr == false){
+        play_loop();
+    }
+}
+
+
+void play_loop() {
   btn_ol_curr = digitalRead(BTN_OL) == LOW;
   btn_om_curr = digitalRead(BTN_OM) == LOW;
   btn_oh_curr = digitalRead(BTN_OH) == LOW;
